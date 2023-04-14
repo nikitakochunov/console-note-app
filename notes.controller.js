@@ -19,11 +19,18 @@ async function addNote(title) {
 }
 
 async function removeNote(id) {
-  const notes = require('./db.json')
+  const notes = await getNotes()
 
   const newNotes = notes.filter((note) => note.id !== id)
 
+  if (newNotes.length === notes.length) {
+    console.log(chalk.yellow.inverse('Note ' + id + ' does not exist'))
+    return
+  }
+
   await fs.writeFile('./db.json', JSON.stringify(newNotes))
+
+  console.log(chalk.green.inverse('Note ' + id + ' was removed'))
 }
 
 async function getNotes() {

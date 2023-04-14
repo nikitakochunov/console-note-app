@@ -43,8 +43,8 @@ async function printNotes() {
   const notes = await getNotes()
 
   console.log(chalk.blue.inverse('List of notes'))
-  notes.forEach((note, index) => {
-    console.log(chalk.blue(index + 1 + ':', note.title))
+  notes.forEach((note) => {
+    console.log(chalk.blue(note.id + ':', note.title))
   })
 }
 

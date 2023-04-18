@@ -20,12 +20,26 @@ async function addNote(title) {
 }
 
 async function removeNote(id) {
-  const notes = require('./db.json')
+  const notes = await getNotes()
 
   const newNotes = notes.filter((note) => note.id !== id)
 
   await fs.writeFile('./db.json', JSON.stringify(newNotes))
   console.log(`Note with id=${id} has been removed`)
+}
+
+async function editNote(id, data) {
+  const notes = await getNotes()
+
+  const newNotes = notes.map((note) => {
+    if (note.id === id) {
+      note.title = data.title
+    }
+    return note
+  })
+
+  await fs.writeFile('./db.json', JSON.stringify(newNotes))
+  console.log(`Note with id=${id} has been edited`)
 }
 
 async function getNotes() {
@@ -51,5 +65,6 @@ module.exports = {
   addNote,
   getNotes,
   removeNote,
+  editNote,
   printNotes,
 }
